@@ -1,85 +1,216 @@
-import { Link, NavLink } from 'react-router-dom';
-import { BookOpen, LogOut, LayoutDashboard, Menu } from 'lucide-react';
+
+import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import {
+  BookOpen,
+  LogOut,
+  LayoutDashboard,
+  Menu,
+  X,
+  ChevronDown,
+} from "lucide-react";
 
 export default function Navbar() {
- 
-  const user = null; 
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
-  const navLinks = (
-    <>
-      <li>
-        <NavLink 
-          to="/" 
-          className={({ isActive }) => (isActive ? 'text-primary font-bold' : '')}
-        >
-          Home
-        </NavLink>
-      </li>
-      <li>
-        <NavLink 
-          to="/books" 
-          className={({ isActive }) => (isActive ? 'text-primary font-bold' : '')}
-        >
-          Browse Books
-        </NavLink>
-      </li>
-    </>
-  );
+  // Later replace this with your actual auth user
+  const user = null;
+
+  const navLinkClass = ({ isActive }) =>
+    `px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
+      isActive
+        ? "text-blue-600 bg-blue-50"
+        : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+    }`;
 
   return (
-    <div className="navbar bg-base-100 shadow-md sticky top-0 z-50 px-4 sm:px-8">
-   
-      <div className="navbar-start">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-            <Menu className="h-6 w-6" />
-          </div>
-          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 gap-1">
-            {navLinks}
-          </ul>
+    <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+
+        {/* Logo */}
+        <div className="flex items-center">
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-xl font-bold text-blue-600"
+          >
+            <BookOpen className="h-7 w-7" />
+            <span>BiblioDrop</span>
+          </Link>
         </div>
-        <Link to="/" className="btn btn-ghost text-xl font-bold gap-2 text-primary">
-          <BookOpen className="h-6 w-6" /> BiblioDrop
-        </Link>
-      </div>
 
-      {/* Desktop Links */}
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-2 text-base font-medium">
-          {navLinks}
-        </ul>
-      </div>
+        {/* Desktop Navigation */}
+        <div className="hidden items-center gap-2 lg:flex">
+          <NavLink to="/" className={navLinkClass}>
+            Home
+          </NavLink>
 
-      <div className="navbar-end gap-3">
-        {user ? (
-          <div className="dropdown dropdown-end">
-            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar border border-primary">
-              <div className="w-10 rounded-full">
-                <img alt="User Avatar" src={user.photo || "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"} />
-              </div>
+          <NavLink to="/books" className={navLinkClass}>
+            Browse Books
+          </NavLink>
+
+          <NavLink to="/about" className={navLinkClass}>
+            About
+          </NavLink>
+        </div>
+
+        {/* Desktop Right Side */}
+        <div className="hidden items-center gap-3 lg:flex">
+
+          {user ? (
+            <div className="relative">
+              {/* Profile Button */}
+              <button
+                onClick={() => setProfileOpen(!profileOpen)}
+                className="flex items-center gap-2 rounded-full border border-gray-200 bg-white p-1 pr-3 transition hover:border-blue-400 hover:shadow-sm"
+              >
+                <img
+                  src={
+                    user.photo ||
+                    "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  }
+                  alt="User Avatar"
+                  className="h-9 w-9 rounded-full object-cover"
+                />
+
+                <span className="text-sm font-medium text-gray-700">
+                  {user.name}
+                </span>
+
+                <ChevronDown
+                  className={`h-4 w-4 text-gray-500 transition-transform ${
+                    profileOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {/* Profile Dropdown */}
+              {profileOpen && (
+                <div className="absolute right-0 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
+
+                  <div className="border-b border-gray-100 px-4 py-3">
+                    <p className="text-sm font-semibold text-gray-800">
+                      {user.name}
+                    </p>
+
+                    <p className="text-xs capitalize text-gray-500">
+                      {user.role || "user"}
+                    </p>
+                  </div>
+
+                  <div className="p-2">
+
+                    <Link
+                      to={`/dashboard/${user.role || "user"}`}
+                      onClick={() => setProfileOpen(false)}
+                      className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-50 hover:text-blue-600"
+                    >
+                      <LayoutDashboard className="h-4 w-4" />
+                      Dashboard
+                    </Link>
+
+                    <button
+                      className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-red-600 transition hover:bg-red-50"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Logout
+                    </button>
+
+                  </div>
+                </div>
+              )}
             </div>
-            <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-              <li className="px-4 py-2 font-bold text-sm text-gray-500">{user.name}</li>
-              <div className="divider my-0"></div>
-              <li>
-                <Link to={`/dashboard/${user.role || 'user'}`}>
-                  <LayoutDashboard size={16} /> Dashboard
-                </Link>
-              </li>
-              <li>
-                <button className="text-error">
-                  <LogOut size={16} /> Logout
-                </button>
-              </li>
-            </ul>
-          </div>
-        ) : (
-          <div className="flex gap-2">
-            <Link to="/login" className="btn btn-outline btn-primary btn-sm">Login</Link>
-            <Link to="/register" className="btn btn-primary btn-sm">Register</Link>
-          </div>
-        )}
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="rounded-lg border border-blue-600 px-4 py-2 text-sm font-semibold text-blue-600 transition hover:bg-blue-50"
+              >
+                Login
+              </Link>
+
+              <Link
+                to="/register"
+                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
+              >
+                Register
+              </Link>
+            </>
+          )}
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="rounded-lg p-2 text-gray-700 transition hover:bg-gray-100 lg:hidden"
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
+        </button>
       </div>
-    </div>
+
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="border-t border-gray-200 bg-white px-4 pb-4 lg:hidden">
+
+          <div className="flex flex-col gap-1 pt-3">
+
+            <NavLink
+              to="/"
+              onClick={() => setMobileOpen(false)}
+              className={navLinkClass}
+            >
+              Home
+            </NavLink>
+
+            <NavLink
+              to="/books"
+              onClick={() => setMobileOpen(false)}
+              className={navLinkClass}
+            >
+              Browse Books
+            </NavLink>
+
+            <NavLink
+              to="/about"
+              onClick={() => setMobileOpen(false)}
+              className={navLinkClass}
+            >
+              About
+            </NavLink>
+
+          </div>
+
+          {/* Mobile Auth */}
+          {!user && (
+            <div className="mt-4 flex gap-2 border-t border-gray-100 pt-4">
+
+              <Link
+                to="/login"
+                onClick={() => setMobileOpen(false)}
+                className="flex-1 rounded-lg border border-blue-600 px-4 py-2 text-center text-sm font-semibold text-blue-600 transition hover:bg-blue-50"
+              >
+                Login
+              </Link>
+
+              <Link
+                to="/register"
+                onClick={() => setMobileOpen(false)}
+                className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-blue-700"
+              >
+                Register
+              </Link>
+
+            </div>
+          )}
+
+        </div>
+      )}
+    </nav>
   );
 }
+

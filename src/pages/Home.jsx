@@ -1,169 +1,349 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { BookOpen, Award, Layers, ArrowRight, Truck } from 'lucide-react';
-import BookCard from '../components/BookCard';
-import axiosInstance from '../api/axiosInstance';
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  BookOpen,
+  Award,
+  Layers,
+  ArrowRight,
+  Truck,
+} from "lucide-react";
+
+import BookCard from "../components/BookCard";
 
 export default function Home() {
-  const [featuredBooks, setFeaturedBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  
+  // ==============================
+  // MOCK BOOKS
+  // ==============================
   const mockBooks = [
-    { _id: '1', title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', category: 'Fiction', deliveryFee: 3.5, status: 'Available', coverImage: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=400' },
-    { _id: '2', title: 'Dune Chronicles', author: 'Frank Herbert', category: 'Sci-Fi', deliveryFee: 4.0, status: 'Available', coverImage: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=400' },
-    { _id: '3', title: 'Clean Code', author: 'Robert C. Martin', category: 'Academic', deliveryFee: 5.0, status: 'Checked Out', coverImage: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=400' },
-    { _id: '4', title: 'To Kill a Mockingbird', author: 'Harper Lee', category: 'Fiction', deliveryFee: 3.0, status: 'Available', coverImage: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=400' },
-    { _id: '5', title: 'Atomic Habits', author: 'James Clear', category: 'Non-Fiction', deliveryFee: 2.5, status: 'Available', coverImage: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=400' },
-    { _id: '6', title: 'The Silent Patient', author: 'Alex Michaelides', category: 'Mystery', deliveryFee: 3.8, status: 'Available', coverImage: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&q=80&w=400' },
+    {
+      _id: "1",
+      title: "The Alchemist",
+      author: "Paulo Coelho",
+      category: "Fiction",
+      deliveryFee: 50,
+      status: "available",
+      coverImage:
+        "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=600",
+    },
+    {
+      _id: "2",
+      title: "Atomic Habits",
+      author: "James Clear",
+      category: "Non-Fiction",
+      deliveryFee: 40,
+      status: "available",
+      coverImage:
+        "https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&q=80&w=600",
+    },
+    {
+      _id: "3",
+      title: "The Hobbit",
+      author: "J.R.R. Tolkien",
+      category: "Fiction",
+      deliveryFee: 45,
+      status: "available",
+      coverImage:
+        "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=600",
+    },
+    {
+      _id: "4",
+      title: "A Brief History of Time",
+      author: "Stephen Hawking",
+      category: "Academic",
+      deliveryFee: 60,
+      status: "available",
+      coverImage:
+        "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=600",
+    },
+    {
+      _id: "5",
+      title: "Dune",
+      author: "Frank Herbert",
+      category: "Sci-Fi",
+      deliveryFee: 55,
+      status: "available",
+      coverImage:
+        "https://images.unsplash.com/photo-1531072901881-d644216d4bf9?auto=format&fit=crop&q=80&w=600",
+    },
+    {
+      _id: "6",
+      title: "Rich Dad Poor Dad",
+      author: "Robert Kiyosaki",
+      category: "Non-Fiction",
+      deliveryFee: 40,
+      status: "available",
+      coverImage:
+        "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=600",
+    },
   ];
 
-  useEffect(() => {
-    const fetchFeaturedBooks = async () => {
-      try {
-        const res = await axiosInstance.get('/books?limit=6');
-        if (res.data && res.data.books && res.data.books.length > 0) {
-          setFeaturedBooks(res.data.books.slice(0, 6));
-        } else {
-          setFeaturedBooks(mockBooks);
-        }
-      } catch (err) {
-        setFeaturedBooks(mockBooks);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFeaturedBooks();
-  }, []);
-
- 
+  // ==============================
+  // TOP LIBRARIANS
+  // ==============================
   const topLibrarians = [
-    { id: 1, name: 'Sarah Jenkins', completedDeliveries: 142, avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200' },
-    { id: 2, name: 'David Chen', completedDeliveries: 118, avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200' },
-    { id: 3, name: 'Elena Rostova', completedDeliveries: 95, avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200' },
+    {
+      id: 1,
+      name: "Sarah Jenkins",
+      completedDeliveries: 142,
+      avatar:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200",
+    },
+    {
+      id: 2,
+      name: "David Chen",
+      completedDeliveries: 118,
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+    },
+    {
+      id: 3,
+      name: "Elena Rostova",
+      completedDeliveries: 95,
+      avatar:
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
+    },
   ];
 
-
+  // ==============================
+  // CATEGORIES
+  // ==============================
   const categories = [
-    { name: 'Fiction', count: '120+ Books', color: 'bg-primary/10 text-primary' },
-    { name: 'Sci-Fi', count: '85+ Books', color: 'bg-secondary/10 text-secondary' },
-    { name: 'Academic', count: '200+ Books', color: 'bg-accent/10 text-accent' },
-    { name: 'Non-Fiction', count: '90+ Books', color: 'bg-info/10 text-info' },
+    {
+      name: "Fiction",
+      count: "120+ Books",
+      color: "bg-blue-50 text-blue-600 border-blue-200",
+    },
+    {
+      name: "Sci-Fi",
+      count: "85+ Books",
+      color: "bg-purple-50 text-purple-600 border-purple-200",
+    },
+    {
+      name: "Academic",
+      count: "200+ Books",
+      color: "bg-orange-50 text-orange-600 border-orange-200",
+    },
+    {
+      name: "Non-Fiction",
+      count: "90+ Books",
+      color: "bg-cyan-50 text-cyan-600 border-cyan-200",
+    },
   ];
 
   return (
     <div className="space-y-16 pb-16">
-      
-      <section className="hero min-h-[75vh] bg-gradient-to-r from-base-200 to-base-300 relative overflow-hidden">
-        <div className="hero-content text-center px-4 max-w-4xl">
+
+      {/* =====================================================
+          HERO
+      ====================================================== */}
+      <section className="relative min-h-[75vh] overflow-hidden bg-gradient-to-r from-slate-50 to-blue-50">
+
+        {/* Background decoration */}
+        <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-blue-200/30 blur-3xl" />
+
+        <div className="absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-indigo-200/30 blur-3xl" />
+
+        <div className="relative flex min-h-[75vh] items-center justify-center px-4">
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-6"
+            className="max-w-4xl space-y-6 text-center"
           >
-            <span className="badge badge-primary badge-outline px-4 py-3 font-semibold text-sm">
+
+            {/* Badge */}
+            <span className="inline-flex items-center rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-600 shadow-sm">
               📚 Online Doorstep Library Delivery
             </span>
-            <h1 className="text-4xl sm:text-6xl font-extrabold leading-tight">
-              Your Local Library, <span className="text-primary">Delivered</span>
+
+            {/* Heading */}
+            <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-6xl">
+              Your Local Library,{" "}
+              <span className="text-blue-600">
+                Delivered
+              </span>
             </h1>
-            <p className="text-base sm:text-lg text-base-content/80 max-w-2xl mx-auto">
-              Connecting avid readers and students with local libraries and independent book owners. Browse diverse collections and request instant doorstep delivery.
+
+            {/* Description */}
+            <p className="mx-auto max-w-2xl text-base leading-7 text-gray-600 sm:text-lg">
+              Connecting avid readers and students with local libraries and
+              independent book owners. Browse diverse collections and request
+              instant doorstep delivery.
             </p>
-            <div className="flex justify-center gap-4 pt-2">
-              <Link to="/books" className="btn btn-primary btn-lg gap-2 shadow-lg">
-                Browse Books <ArrowRight size={18} />
+
+            {/* CTA */}
+            <div className="flex justify-center pt-2">
+              <Link
+                to="/books"
+                className="group inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:bg-blue-700 hover:shadow-xl"
+              >
+                Browse Books
+
+                <ArrowRight
+                  size={18}
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                />
               </Link>
             </div>
+
           </motion.div>
         </div>
       </section>
 
-    
-      <section className="max-w-7xl mx-auto px-4 sm:px-8">
-        <div className="flex justify-between items-end mb-8">
+
+      {/* =====================================================
+          FEATURED BOOKS
+      ====================================================== */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-8">
+
+        {/* Header */}
+        <div className="mb-8 flex items-end justify-between">
+
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
-              <BookOpen className="text-primary" /> Featured Books
+            <h2 className="flex items-center gap-2 text-2xl font-bold text-gray-900 sm:text-3xl">
+              <BookOpen className="text-blue-600" />
+              Featured Books
             </h2>
-            <p className="text-sm text-base-content/70 mt-1">Explore our latest additions available for delivery</p>
+
+            <p className="mt-1 text-sm text-gray-500">
+              Explore our latest additions available for delivery
+            </p>
           </div>
-          <Link to="/books" className="btn btn-ghost btn-sm text-primary gap-1 hidden sm:flex">
-            View All <ArrowRight size={16} />
+
+          <Link
+            to="/books"
+            className="hidden items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-blue-600 transition hover:bg-blue-50 sm:flex"
+          >
+            View All
+            <ArrowRight size={16} />
           </Link>
+
         </div>
 
-        {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="flex flex-col gap-4">
-                <div className="skeleton h-56 w-full"></div>
-                <div className="skeleton h-4 w-28"></div>
-                <div className="skeleton h-4 w-full"></div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {featuredBooks.map((book) => (
-              <BookCard key={book._id} book={book} />
-            ))}
-          </div>
-        )}
+
+        {/* Mock Books */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+
+          {mockBooks.map((book) => (
+            <BookCard
+              key={book._id}
+              book={book}
+            />
+          ))}
+
+        </div>
+
       </section>
 
-    
-      <section className="bg-base-200 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold flex justify-center items-center gap-2">
-              <Award className="text-secondary" /> Top Librarians & Providers
+
+      {/* =====================================================
+          TOP LIBRARIANS
+      ====================================================== */}
+      <section className="bg-gray-50 py-12">
+
+        <div className="mx-auto max-w-7xl px-4 sm:px-8">
+
+          {/* Section Header */}
+          <div className="mx-auto mb-10 max-w-2xl text-center">
+
+            <h2 className="flex items-center justify-center gap-2 text-2xl font-bold text-gray-900 sm:text-3xl">
+              <Award className="text-yellow-500" />
+              Top Librarians & Providers
             </h2>
-            <p className="text-sm text-base-content/70 mt-1">Recognizing our providers with the highest completed deliveries</p>
+
+            <p className="mt-1 text-sm text-gray-500">
+              Recognizing our providers with the highest completed deliveries
+            </p>
+
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          {/* Cards */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+
             {topLibrarians.map((lib) => (
-              <div key={lib.id} className="card bg-base-100 shadow-md p-6 text-center border border-base-300">
-                <div className="avatar justify-center mb-4">
-                  <div className="w-20 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                    <img src={lib.avatar} alt={lib.name} />
-                  </div>
+              <div
+                key={lib.id}
+                className="rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              >
+
+                {/* Avatar */}
+                <div className="mb-4 flex justify-center">
+                  <img
+                    src={lib.avatar}
+                    alt={lib.name}
+                    className="h-20 w-20 rounded-full object-cover ring-4 ring-blue-100"
+                  />
                 </div>
-                <h3 className="font-bold text-lg">{lib.name}</h3>
-                <p className="text-sm text-base-content/70 flex items-center justify-center gap-1 mt-1">
-                  <Truck size={16} className="text-primary" /> {lib.completedDeliveries} Completed Deliveries
+
+                {/* Name */}
+                <h3 className="text-lg font-bold text-gray-900">
+                  {lib.name}
+                </h3>
+
+                {/* Delivery */}
+                <p className="mt-1 flex items-center justify-center gap-1 text-sm text-gray-500">
+                  <Truck
+                    size={16}
+                    className="text-blue-600"
+                  />
+
+                  {lib.completedDeliveries} Completed Deliveries
                 </p>
+
               </div>
             ))}
+
           </div>
+
         </div>
       </section>
 
-      
-      <section className="max-w-7xl mx-auto px-4 sm:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold flex justify-center items-center gap-2">
-            <Layers className="text-accent" /> Popular Categories
+
+      {/* =====================================================
+          POPULAR CATEGORIES
+      ====================================================== */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-8">
+
+        {/* Header */}
+        <div className="mx-auto mb-10 max-w-2xl text-center">
+
+          <h2 className="flex items-center justify-center gap-2 text-2xl font-bold text-gray-900 sm:text-3xl">
+            <Layers className="text-purple-600" />
+            Popular Categories
           </h2>
-          <p className="text-sm text-base-content/70 mt-1">Find books by your favorite genre</p>
+
+          <p className="mt-1 text-sm text-gray-500">
+            Find books by your favorite genre
+          </p>
+
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {categories.map((cat, idx) => (
+
+        {/* Categories */}
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+
+          {categories.map((cat) => (
             <Link
-              key={idx}
-              to={`/books?category=${cat.name}`}
-              className={`p-6 rounded-2xl text-center border border-base-200 transition-transform hover:-translate-y-1 hover:shadow-lg ${cat.color}`}
+              key={cat.name}
+              to={`/books?category=${encodeURIComponent(cat.name)}`}
+              className={`rounded-2xl border p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${cat.color}`}
             >
-              <h3 className="font-bold text-lg">{cat.name}</h3>
-              <p className="text-xs opacity-80 mt-1">{cat.count}</p>
+
+              <h3 className="text-lg font-bold">
+                {cat.name}
+              </h3>
+
+              <p className="mt-1 text-xs opacity-80">
+                {cat.count}
+              </p>
+
             </Link>
           ))}
+
         </div>
+
       </section>
 
     </div>
