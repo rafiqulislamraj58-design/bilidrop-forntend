@@ -10,6 +10,7 @@ import ManageUsers from "../pages/dashboard/ManageUsers";
 import AddBook from "../pages/dashboard/AddBook";
 import MyBooks from "../pages/dashboard/MyBooks";
 import ManageDeliveries from "../pages/dashboard/ManageDeliveries";
+import MyDeliveries from "../pages/dashboard/MyDeliveries";
 import PrivateRoute from "./PrivateRoute";
 import LibrarianRoute from "./LibrarianRoute";
 import AdminRoute from "./AdminRoute";
@@ -35,7 +36,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "/dashboard", element: <Navigate to="/dashboard/profile" replace /> },
       { path: "profile", element: <div className="text-2xl font-bold">User Profile Page</div> },
-      { path: "my-deliveries", element: <div className="text-2xl font-bold">My Orders / Deliveries</div> },
+      { path: "my-deliveries", element: <MyDeliveries /> },
       { path: "wishlist", element: <div className="text-2xl font-bold">My Wishlist Page</div> },
 
       // Librarian Routes
