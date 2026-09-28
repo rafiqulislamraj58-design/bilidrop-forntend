@@ -7,6 +7,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import AdminOverview from "../pages/dashboard/AdminOverview";
 import ManageUsers from "../pages/dashboard/ManageUsers";
+import AddBook from "../pages/dashboard/AddBook";
 import PrivateRoute from "./PrivateRoute";
 import LibrarianRoute from "./LibrarianRoute";
 import AdminRoute from "./AdminRoute";
@@ -35,12 +36,12 @@ export const router = createBrowserRouter([
       { path: "my-deliveries", element: <div className="text-2xl font-bold">My Orders / Deliveries</div> },
       { path: "wishlist", element: <div className="text-2xl font-bold">My Wishlist Page</div> },
 
-      // Librarian Routes
+    
       {
         path: "add-book",
         element: (
           <LibrarianRoute>
-            <div className="text-2xl font-bold">Add Book Page</div>
+            <AddBook />
           </LibrarianRoute>
         ),
       },
@@ -61,7 +62,7 @@ export const router = createBrowserRouter([
         ),
       },
 
-      // Admin Routes
+ 
       {
         path: "admin-overview",
         element: (
