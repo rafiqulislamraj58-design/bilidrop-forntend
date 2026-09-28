@@ -5,6 +5,7 @@ import Home from "../pages/Home";
 import BrowseBooks from "../pages/BrowseBooks";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import AdminOverview from "../pages/dashboard/AdminOverview";
 import PrivateRoute from "./PrivateRoute";
 import LibrarianRoute from "./LibrarianRoute";
 import AdminRoute from "./AdminRoute";
@@ -64,7 +65,7 @@ export const router = createBrowserRouter([
         path: "admin-overview",
         element: (
           <AdminRoute>
-            <div className="text-2xl font-bold">Admin Analytics Dashboard</div>
+            <AdminOverview />
           </AdminRoute>
         ),
       },
