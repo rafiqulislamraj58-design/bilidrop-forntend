@@ -3,6 +3,7 @@ import MainLayout from "../layouts/MainLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Home from "../pages/Home";
 import BrowseBooks from "../pages/BrowseBooks";
+import BookDetails from "../pages/BookDetails";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import AdminOverview from "../pages/dashboard/AdminOverview";
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/books", element: <BrowseBooks /> },
+      { path: "/books/:id", element: <BookDetails /> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
     ],
