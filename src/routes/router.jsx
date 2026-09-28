@@ -9,6 +9,7 @@ import AdminOverview from "../pages/dashboard/AdminOverview";
 import ManageUsers from "../pages/dashboard/ManageUsers";
 import AddBook from "../pages/dashboard/AddBook";
 import MyBooks from "../pages/dashboard/MyBooks";
+import ManageDeliveries from "../pages/dashboard/ManageDeliveries";
 import PrivateRoute from "./PrivateRoute";
 import LibrarianRoute from "./LibrarianRoute";
 import AdminRoute from "./AdminRoute";
@@ -58,7 +59,7 @@ export const router = createBrowserRouter([
         path: "manage-deliveries",
         element: (
           <LibrarianRoute>
-            <div className="text-2xl font-bold">Manage Deliveries Page</div>
+            <ManageDeliveries />
           </LibrarianRoute>
         ),
       },
